@@ -3,7 +3,7 @@
     custom rest connector in webMethods.io to get access token without using oauth account.
 
 # Prerequisite
-1. Pre-instaled keycloak server. *If you need to create your own instance, you could easily spawn one docker or k8s instance from "keycloak packaged by bitnami". "https://bitnami.com/stack/keycloak/helm"*
+1. Pre-instaled keycloak server. *If you need to create your own instance, you could easily spawn one docker or k8s instance from "keycloak packaged by bitnami". Refer https://bitnami.com/stack/keycloak/helm *
 
 
 # Topics
