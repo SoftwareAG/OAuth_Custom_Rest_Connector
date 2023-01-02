@@ -2,4 +2,4 @@
 "grant_type","client_credentials"
 "scope","openid"
 "client_id","test_client"
-"client_secret","fSq2r5UkbVO1S5uSJxXe4qWdfGE0d1ZD"
+"client_secret","*****************"
