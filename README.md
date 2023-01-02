@@ -1,5 +1,6 @@
 # OAuth_Custom_Rest_Connector 
-    This article shows how to configure keycloak server with client_credentials and then to create custom rest connector in webMethods.io to get access token without using oauth account.
+    This article shows how to configure keycloak server with client_credentials and then to create 
+    custom rest connector in webMethods.io to get access token without using oauth account.
 
 # Prerequisite
 1. Pre-instaled keycloak server. If you need to create your own instance, you could easily spawn one an docker or k8s from "**keycloak packaged by bitnami**". "https://bitnami.com/stack/keycloak/helm"
