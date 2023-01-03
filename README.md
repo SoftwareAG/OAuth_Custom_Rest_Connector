@@ -1,4 +1,4 @@
-# OAuth_Custom_Rest_Connector 
+# OAuth Custom Rest Connector 
     This article shows how to configure keycloak server with client_credentials and then to create 
     custom rest connector in webMethods.io to get access token without using oauth account.
 
@@ -82,3 +82,14 @@
 5. Save & Test your FlowService
 ![](./images/2023-01-02-21-25-45.png)
 
+# Downloads / Assets
+
+You could find the export of Integration, along with Connector definitions in **assets/integration**.
+
+## How to use/test
+
+1. Login to wM.IO tenant
+2. Navigate to project where you want to import
+3. Import the zip from assets/integration
+4. Add the reference data with name "OAUTH_APP_DEV" and upload the file "OAUTH_APP_DEV.txt" from **assets/reference data**. ***Note: Client Secret needs to be updated accordingly***​​​​​​​
+5. Add an account with name "Oauth_None" and details as provided in markdown
