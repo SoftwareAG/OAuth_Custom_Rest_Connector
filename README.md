@@ -4,6 +4,8 @@
 # Usecase
 If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry. In such cases we will need to create a Cloud Integration to get the access token instead of using default OAuth Account management of the connector.
 
+![](./images/usecase.png)
+
 As an example we will use Keycloak as OAUTH provider to showcase this usecase.
 
 # Prerequisite
