@@ -2,6 +2,11 @@
     This article shows how to configure keycloak server with client_credentials and then to create 
     custom rest connector in webMethods.io to get access token without using oauth account.
 
+# Usecase
+If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) intead of refreshing token on expiry. In such cases we will need to create a Cloud Integration to get the access token instead of using default OAuth Account management of the connector.
+
+As an example we will use Keycloak as OAUTH provider to showcase this usecase.
+
 # Prerequisite
 1. Pre-instaled keycloak server. *If you need to create your own instance, you could easily spawn one docker or k8s instance from "keycloak packaged by bitnami". Refer https://bitnami.com/stack/keycloak/helm*
 
