@@ -2,39 +2,39 @@
     This article shows how to create custom rest connector in webMethods.io to get access token 
     without using the default oauth account management and how to configure keycloak server with client_credentials.
 
-# Usecase
+# Use-case
 If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry. In such cases we will need to create a Cloud Integration to get the access token instead of using default OAuth Account management of the connector.
 
 ![](./images/usecase.png)
 
-As an example we will use Keycloak as OAUTH provider to showcase this usecase.
+As an example we will use Keycloak as OAUTH provider to showcase this use-case.
 
 # Prerequisite
-1. Pre-instaled keycloak server. *If you need to create your own instance, you could easily spawn one docker or k8s instance from "keycloak packaged by bitnami". Refer https://bitnami.com/stack/keycloak/helm*
+1. Pre-installed keycloak server. *If you need to create your own instance, you could easily spawn one docker or k8s instance from "keycloak packaged by bitnami". Refer https://bitnami.com/stack/keycloak/helm*
 
 
 # Topics
 1. Creating realm and client in keycloak and configuring them.
-2. Test to retrive token using postman
+2. Test to retrieve token using postman
 3. webmethods.IO
    1. Creating custom rest connector & and an account
-   2. Creating reource & operations for getting token
+   2. Creating resource & operations for getting token
    3. Creating FlowService to get the token
 
 # Steps
 
 ## Creating and configuring realm and client
 
-1. Login to keycloak "Administartion console".
+1. Login to keycloak "Administration console".
 ![](./images/2023-01-02-17-50-30.png)
 
-2. Login
+2. Login.
 ![](./images/2023-01-02-18-52-19.png)
 
-3. Create a realm
+3. Create a realm. (name: **test_realm**)
 ![](./images/2023-01-02-18-53-24.png)
 
-4. Create a client
+4. Create a client (name: **test_client**), with configs as show below.
 ![](./images/2023-01-02-18-54-40.png)
 
 ![](./images/2023-01-02-18-56-00.png)
@@ -42,52 +42,56 @@ As an example we will use Keycloak as OAUTH provider to showcase this usecase.
 ![](./images/2023-01-02-18-57-03.png)
 
 **Note: Select "Use refresh tokens for client credentials grant" in *Open ID Connect Compatibility Modes***
+This could be important in some cases, with this being selected **refresh token** will not be sent along with the token response.
 ![](./images/2023-01-02-18-59-04.png)
 
-## Test to retrive token using postman
+## Test to retrieve token using postman
 
-1.  Create a request with below config
+1.  Create a POST request with 4 **form encoded** parameters, *grant_type, scope, client_id, client_secret* and with url *http://<<KEYCLOAK_SERVER>>:<<PORT_NUMBER>>/realms/<<REALM_NAME>>/protocol/openid-connect/token* as below config.
 ![](./images/2023-01-02-20-09-05.png)
+
+    The result will contain token and token details, like access_token, refresh_token, expiry etc. 
 
 ## webmethods.IO
 ### Creating custom rest connector
-1. Create / Open your project in IO tenant 
+1. Create / Open your project in IO tenant .
 ![](./images/2023-01-02-20-13-41.png)
 
-2. Navigate to Connectors > Rest and click on **Add Connector**. provide name, URL(http://<KEYCLOAK_SERVER:PORT/>) and select **Credentials** as Authentication Type and save
+2. Navigate to Connectors > Rest and click on **Add Connector**. provide name, URL(http://<KEYCLOAK_SERVER:PORT/>) and select **Credentials** as Authentication Type and save.
 ![](./images/2023-01-02-20-16-42.png)
 
 3. Navigate to Connectors, select the created connector and click on **Add Account**. Select **Authorization Type** as **none** and rest could be left default.
 ![](./images/2023-01-02-21-29-14.png)
 
-### Creating reource & operations for getting token
-1. Click **Add Resource** with name and Path (realms/test_realm/protocol/openid-connect/token)
-![](./images/2023-01-02-20-18-58.png)
+    Account could also be created after resources. But we need to have an account created before we create any operation.
 
-2. Add Header **Content-Type** with value **application/x-www-form-urlencoded**
-3. Add request body with Content-Type **Binary**
-![](./images/2023-01-02-20-21-13.png)
+### Creating resource & operations for getting token
+1. Click **Add Resource** with name and Path (realms/{real_name}/protocol/openid-connect/token).
+![](./images/2023-01-12-11-00-11.png)
 
-4. Add response body for HTTP range **200-299** and copy the json from postman test results to create the document type.
-5. Add another response body for HTTP range **400-599** for Error
+    We have made the **realm_name** as a URL_CONTEXT parameter as this could change depending on the configuration of OAUTH Provider.
+
+2. Add POST as the method and add 5 parameters, out of which 4 of them as FORM_ENCODED for *grant_type, scope, client_id, client_secret* and 1 as URL_CONTEXT for *realm_name*.
+![](./images/2023-01-12-13-47-48.png)
+
+3. Add response body for HTTP range **200-299** and click on **+** for Document Type. Provide a name and click on **Load JSON** and then copy the json response from postman results (above).
+4. Add another response body for HTTP range **400-599** for Error, and select the *Error* check box.
 ![](./images/2023-01-02-21-04-04.png)
-![](./images/2023-01-02-21-08-36.png)
+![](./images/2023-01-12-13-51-51.png)
 
 ### Creating FlowService to get the token
 1. Navigate to Integrations > FlowServices and click **+** to add new Flowservice
-![](./images/2023-01-02-21-21-41.png)
+![](./images/2023-01-12-14-14-13.png)
 
-2. Add a Transform pipeline and add pipeline variable (say input) with value **grant_type=%grant_type%&scope=%scope%&client_id=%client_id%&client_secret=%client_secret%**. Replace the %% with respective values. You could also add all 4 **form parameters** into **REFERENCE DATA** and retrive from there instead of hardcoding.
-![](./images/2023-01-02-21-13-13.png)
-
-3. Add another transform pipeline to covert the above **input** to stream.
-![](./images/2023-01-02-21-23-07.png)
+2. Add a Transform pipeline and add 5 pipeline variables for request parameters.
+3. Instead of hardcoding the values, we have defined these in a Reference data and retrieving from there. 
+![](./images/2023-01-12-14-01-33.png)
 
 4. Now invoke the operation we created and pass the above stream to the body
-![](./images/2023-01-02-21-24-33.png)
+![](./images/2023-01-12-14-16-16.png)
 
 5. Save & Test your FlowService
-![](./images/2023-01-02-21-25-45.png)
+![](./images/2023-01-12-14-17-12.png)
 
 # Downloads / Assets
 

@@ -1,5 +1,6 @@
 "KEY","Value"
 "grant_type","client_credentials"
 "scope","openid"
-"client_id","test_client"
+"client_id","sagis"
 "client_secret","*****************"
+"realName","dev"
