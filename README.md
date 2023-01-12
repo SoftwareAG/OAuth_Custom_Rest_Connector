@@ -34,20 +34,20 @@ As an example we will use Keycloak as OAUTH provider to showcase this use-case.
 3. Create a realm. (name: **test_realm**)
 ![](./images/2023-01-02-18-53-24.png)
 
-4. Create a client (name: **test_client**), with configs as show below.
+4. Create a client (name: **test_client**), with configs as shown below.
 ![](./images/2023-01-02-18-54-40.png)
 
 ![](./images/2023-01-02-18-56-00.png)
 
 ![](./images/2023-01-02-18-57-03.png)
 
-**Note: Select "Use refresh tokens for client credentials grant" in *Open ID Connect Compatibility Modes***
-This could be important in some cases, with this being selected **refresh token** will not be sent along with the token response.
+*Note: Select **Use refresh tokens for client credentials grant** in **Open ID Connect Compatibility Modes***
+This could be important in some cases, if this is **not** selected *refresh token* will not be sent along with the token response.
 ![](./images/2023-01-02-18-59-04.png)
 
 ## Test to retrieve token using postman
 
-1.  Create a POST request with 4 **form encoded** parameters, *grant_type, scope, client_id, client_secret* and with url *http://<<KEYCLOAK_SERVER>>:<<PORT_NUMBER>>/realms/<<REALM_NAME>>/protocol/openid-connect/token* as below config.
+1.  Create a POST request with 4 **form encoded** parameters, *grant_type, scope, client_id, client_secret* and with url *http://<<KEYCLOAK_SERVER>>:<<PORT_NUMBER>>/realms/<<REALM_NAME>>/protocol/openid-connect/token* as below.
 ![](./images/2023-01-02-20-09-05.png)
 
     The result will contain token details, like access_token, refresh_token, token expiry, refresh expiry etc. We will use the generated token to access the application resource. 
@@ -63,13 +63,13 @@ This could be important in some cases, with this being selected **refresh token*
 3. Navigate to Connectors, select the created connector and click on **Add Account**. Select **Authorization Type** as **none** and rest could be left default.
 ![](./images/2023-01-02-21-29-14.png)
 
-    Account could also be created after resources. But we need to have an account created before we create any operation.
+    *Account could also be created after resources. But we need to have an account created before we create any operation.*
 
-### Creating resource & operations for getting token
+### Creating resource & operation for getting token
 1. Click **Add Resource** with name and Path (realms/{real_name}/protocol/openid-connect/token).
 ![](./images/2023-01-12-11-00-11.png)
 
-    We have made the **realm_name** as a URL_CONTEXT parameter as this could change depending on the configuration of OAUTH Provider.
+    *We have made the **realm_name** as a URL_CONTEXT parameter as this could change depending on the configuration of OAUTH Provider.*
 
 2. Add POST as the method and add 5 parameters, out of which 4 of them as FORM_ENCODED for *grant_type, scope, client_id, client_secret* and 1 as URL_CONTEXT for *realm_name*.
 ![](./images/2023-01-12-13-47-48.png)
