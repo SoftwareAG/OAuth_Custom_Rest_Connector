@@ -50,7 +50,7 @@ This could be important in some cases, with this being selected **refresh token*
 1.  Create a POST request with 4 **form encoded** parameters, *grant_type, scope, client_id, client_secret* and with url *http://<<KEYCLOAK_SERVER>>:<<PORT_NUMBER>>/realms/<<REALM_NAME>>/protocol/openid-connect/token* as below config.
 ![](./images/2023-01-02-20-09-05.png)
 
-    The result will contain token and token details, like access_token, refresh_token, expiry etc. 
+    The result will contain token details, like access_token, refresh_token, token expiry, refresh expiry etc. We will use the generated token to access the application resource. 
 
 ## webmethods.IO
 ### Creating custom rest connector
