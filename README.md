@@ -3,7 +3,7 @@
     without using the default oauth account management and how to configure keycloak server with client_credentials.
 
 # Use-case
-If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry. In such cases we will need to create a Cloud Integration to get the access token instead of using default OAuth Account management of the connector.
+If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry, as refresh on expiry on each new session (service invocation) will be expensive. In such cases we will need to create a Cloud Integration to get the access token instead of using default OAuth Account management of the connector.
 
 ![](./images/usecase.png)
 
@@ -17,7 +17,7 @@ As an example we will use Keycloak as OAUTH provider to showcase this use-case.
 1. Creating realm and client in keycloak and configuring them.
 2. Test to retrieve token using postman
 3. webmethods.IO
-   1. Creating custom rest connector & and an account
+   1. Creating custom rest connector & and an account. 
    2. Creating resource & operations for getting token
    3. Creating FlowService to get the token
 
@@ -54,6 +54,9 @@ This could be important in some cases, if this is **not** selected *refresh toke
 
 ## webmethods.IO
 ### Creating custom rest connector
+
+*Its not mandatory to create a Rest Connector, you could directly use **http** invoke as well. But in general when you have many resources hosted in an application, its better to use Custom Rest Connector, instead of many separate https calls*
+
 1. Create / Open your project in IO tenant .
 ![](./images/2023-01-02-20-13-41.png)
 
