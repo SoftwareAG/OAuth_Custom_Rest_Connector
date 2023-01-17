@@ -3,7 +3,7 @@
     without using the default oauth account management and how to configure keycloak server with client_credentials.
 
 # Use-case
-If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry, as refresh on expiry on each new session (service invocation) will be expensive. In such cases we will need to create a Cloud Integration to get the access token instead of using default OAuth Account management of the connector.
+If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry, as refresh on expiry on each new session (service invocation) will be expensive. In such cases we will need to create a connector or Cloud Integration (Flowservice) to get the access token instead of using default OAuth Account management of the connector.
 
 ![](./images/usecase.png)
 
@@ -55,7 +55,7 @@ This could be important in some cases, if this is **not** selected *refresh toke
 ## webmethods.IO
 ### Creating custom rest connector
 
-*Its not mandatory to create a Rest Connector, you could directly use **http** invoke as well. But in general when you have many resources hosted in an application, its better to use Custom Rest Connector, instead of many separate https calls*
+*Its not mandatory to create a Rest Connector, you could directly use **http** invoke in your Flowservice or Workflow as well. But in general when you have many resources hosted in an application, its better to use Custom Rest Connector, instead of many separate https calls*
 
 1. Create / Open your project in IO tenant .
 ![](./images/2023-01-02-20-13-41.png)
@@ -83,6 +83,8 @@ This could be important in some cases, if this is **not** selected *refresh toke
 ![](./images/2023-01-12-13-51-51.png)
 
 ### Creating FlowService to get the token
+We will use the above created connector and try to retrieve the token in a Flowservice, this step is **not mandatory** for token creation, rather just shows how to retrieve the token. And also it will assist in exporting/importing the whole solution including connector.
+
 1. Navigate to Integrations > FlowServices and click **+** to add new Flowservice
 ![](./images/2023-01-12-14-14-13.png)
 
@@ -98,7 +100,7 @@ This could be important in some cases, if this is **not** selected *refresh toke
 
 # Downloads / Assets
 
-You could find the export of Integration, along with Connector definitions in **assets/integration**.
+You could find the export of Flowservice, along with Connector definitions in **assets/integration**.
 
 ## How to use/test
 
