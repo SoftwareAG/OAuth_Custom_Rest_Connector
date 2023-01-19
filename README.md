@@ -78,9 +78,16 @@ This could be important in some cases, if this is **not** selected *refresh toke
 ![](./images/2023-01-12-13-47-48.png)
 
 3. Add response body for HTTP range **200-299** and click on **+** for Document Type. Provide a name and click on **Load JSON** and then copy the json response from postman results (above).
+
 4. Add another response body for HTTP range **400-599** for Error, and select the *Error* check box.
 ![](./images/2023-01-02-21-04-04.png)
 ![](./images/2023-01-12-13-51-51.png)
+
+5. Navigate to Connectors, hover over the created connector and click **Operations**
+![](./images/2023-01-19-09-33-44.png)
+
+6. Click **Add Operation**, provide a name (example: getToken), select the created account and save it.
+![](./images/2023-01-19-09-30-00.png)
 
 ### Creating FlowService to get the token
 We will use the above created connector and try to retrieve the token in a Flowservice, this step is **not mandatory** for token creation, rather just shows how to retrieve the token. And also it will assist in exporting/importing the whole solution including connector.
