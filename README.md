@@ -1,13 +1,12 @@
 # OAuth Custom Rest Connector 
-    This article shows how to create custom rest connector in webMethods.io to get access token 
-    without using the default oauth account management and how to configure keycloak server with client_credentials.
+    This article shows how to create a custom rest connector in webMethods.io to get an access token without using the default OAuth account management and how to configure keycloak server with client_credentials.
 
 # Use-case
-If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry, as refresh on expiry on each new session (service invocation) will be expensive. In such cases we will need to create a connector or Cloud Integration (Flowservice) to get the access token instead of using default OAuth Account management of the connector.
+If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates a token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry, as refresh on expiry on each new session (service invocation) will be expensive. In such cases, we will need to create a connector or Cloud Integration (Flowservice) to get the access token instead of using the default OAuth Account management of the connector.
 
 ![](./images/usecase.png)
 
-As an example we will use Keycloak as OAUTH provider to showcase this use-case.
+As an example, we will use Keycloak as an OAUTH provider to showcase this use case.
 
 # Prerequisite
 1. Pre-installed keycloak server. *If you need to create your own instance, you could easily spawn one docker or k8s instance from "keycloak packaged by bitnami". Refer https://bitnami.com/stack/keycloak/helm*
@@ -55,9 +54,9 @@ This could be important in some cases, if this is **not** selected *refresh toke
 ## webmethods.IO
 ### Creating custom rest connector
 
-*Its not mandatory to create a Rest Connector, you could directly use **http** invoke in your Flowservice or Workflow as well. But in general when you have many resources hosted in an application, its better to use Custom Rest Connector, instead of many separate https calls*
+*It’s not mandatory to create a Rest Connector, you could directly use **http** invoke as well. But in general when you have many resources hosted in an application, its better to use Custom Rest Connector, instead of many separate https calls*
 
-1. Create / Open your project in IO tenant .
+1. Create / Open your project in the IO tenant .
 ![](./images/2023-01-02-20-13-41.png)
 
 2. Navigate to Connectors > Rest and click on **Add Connector**. provide name, URL(http://<KEYCLOAK_SERVER:PORT/>) and select **Credentials** as Authentication Type and save.
@@ -72,12 +71,12 @@ This could be important in some cases, if this is **not** selected *refresh toke
 1. Click **Add Resource** with name and Path (realms/{real_name}/protocol/openid-connect/token).
 ![](./images/2023-01-12-11-00-11.png)
 
-    *We have made the **realm_name** as a URL_CONTEXT parameter as this could change depending on the configuration of OAUTH Provider.*
+    *We have made the **realm_name** as a URL_CONTEXT parameter as this could change depending on the configuration of OAuth Provider.*
 
 2. Add POST as the method and add 5 parameters, out of which 4 of them as FORM_ENCODED for *grant_type, scope, client_id, client_secret* and 1 as URL_CONTEXT for *realm_name*.
 ![](./images/2023-01-12-13-47-48.png)
 
-3. Add response body for HTTP range **200-299** and click on **+** for Document Type. Provide a name and click on **Load JSON** and then copy the json response from postman results (above).
+3. Navigate to Connectors, select the created connector and click on **Add Account**. Select **Authorization Type** as **none** and the rest could be left default.
 
 4. Add another response body for HTTP range **400-599** for Error, and select the *Error* check box.
 ![](./images/2023-01-02-21-04-04.png)
@@ -90,7 +89,7 @@ This could be important in some cases, if this is **not** selected *refresh toke
 ![](./images/2023-01-19-09-30-00.png)
 
 ### Creating FlowService to get the token
-We will use the above created connector and try to retrieve the token in a Flowservice, this step is **not mandatory** for token creation, rather just shows how to retrieve the token. And also it will assist in exporting/importing the whole solution including connector.
+We will use the above-created connector and try to retrieve the token in a Flowservice, this step is **not mandatory** for token creation, rather just shows how to retrieve the token. And also it will assist in exporting/importing the whole solution including the connector.
 
 1. Navigate to Integrations > FlowServices and click **+** to add new Flowservice
 ![](./images/2023-01-12-14-14-13.png)
