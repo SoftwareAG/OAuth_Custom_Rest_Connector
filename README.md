@@ -115,3 +115,7 @@ You could find the export of Flowservice, along with Connector definitions in **
 3. Import the zip from assets/integration
 4. Add the reference data with name "OAUTH_APP_DEV" and upload the file "OAUTH_APP_DEV.txt" from **assets/reference data**. ***Note: Client Secret needs to be updated accordingly***​​​​​​​
 5. Add an account with name "Oauth_None" and details as provided in markdown
+
+
+______________________
+These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.	
