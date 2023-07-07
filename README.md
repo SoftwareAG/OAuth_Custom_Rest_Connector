@@ -1,5 +1,5 @@
 # OAuth Custom Rest Connector 
-    This article shows how to create a custom rest connector in webMethods.io to get an access token without using the default OAuth account management and how to configure keycloak server with client_credentials.
+This article shows how to create a custom rest connector in webMethods.io to get an access token without using the default OAuth account management and how to configure keycloak server with client_credentials.
 
 # Use-case
 If you are integrating with Custom Cloud Rest Application and if the OAUTH Provider for your custom application generates a token with considerably small expiry and there is a need to generate the access token for every session (or service execution) instead of refreshing token on expiry, as refresh on expiry on each new session (service invocation) will be expensive. In such cases, we will need to create a connector or Cloud Integration (Flowservice) to get the access token instead of using the default OAuth Account management of the connector.
@@ -15,7 +15,7 @@ As an example, we will use Keycloak as an OAUTH provider to showcase this use ca
 # Topics
 1. Creating realm and client in keycloak and configuring them.
 2. Test to retrieve token using postman
-3. webmethods.IO
+3. webMethods.io
    1. Creating custom rest connector & and an account. 
    2. Creating resource & operations for getting token
    3. Creating FlowService to get the token
@@ -41,6 +41,7 @@ As an example, we will use Keycloak as an OAUTH provider to showcase this use ca
 ![](./images/2023-01-02-18-57-03.png)
 
 *Note: Select **Use refresh tokens for client credentials grant** in **Open ID Connect Compatibility Modes***
+
 This could be important in some cases, if this is **not** selected *refresh token* will not be sent along with the token response.
 ![](./images/2023-01-02-18-59-04.png)
 
@@ -51,7 +52,7 @@ This could be important in some cases, if this is **not** selected *refresh toke
 
     The result will contain token details, like access_token, refresh_token, token expiry, refresh expiry etc. We will use the generated token to access the application resource. 
 
-## webmethods.IO
+## webMethods.io
 ### Creating custom rest connector
 
 *It’s not mandatory to create a Rest Connector, you could directly use **http** invoke as well. But in general when you have many resources hosted in an application, its better to use Custom Rest Connector, instead of many separate https calls*
@@ -63,9 +64,10 @@ This could be important in some cases, if this is **not** selected *refresh toke
 ![](./images/2023-01-02-20-16-42.png)
 
 3. Navigate to Connectors, select the created connector and click on **Add Account**. Select **Authorization Type** as **none** and rest could be left default.
+ 
 ![](./images/2023-01-02-21-29-14.png)
 
-    *Account could also be created after resources. But we need to have an account created before we create any operation.*
+*Account could also be created after resources. But we need to have an account created before we create any operation.*
 
 ### Creating resource & operation for getting token
 1. Click **Add Resource** with name and Path (realms/{real_name}/protocol/openid-connect/token).
